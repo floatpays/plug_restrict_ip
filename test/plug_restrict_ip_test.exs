@@ -136,6 +136,12 @@ defmodule PlugRestrictIpTest do
     assert_forbidden(conn)
   end
 
+  test "always allows global cidrs" do
+    conn = call({4, 4, 4, 4}, allow: "1.1.1.0/24")
+
+    assert_accepted(conn)
+  end
+
   defp call(ip, opts \\ []) do
     conn(:get, "/restricted")
     |> Map.merge(%{remote_ip: ip})

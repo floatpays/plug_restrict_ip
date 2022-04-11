@@ -35,7 +35,7 @@ defmodule PlugRestrictIp do
         _ ->
           conn
           |> put_resp_content_type("application/json")
-          |> resp(:forbidden, Jason.encode!(%{status: 403, message: "Forbidden"}))
+          |> resp(:forbidden, "Forbidden")
           |> halt()
       end
     end

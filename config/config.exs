@@ -1,7 +1,9 @@
 import Config
 
 config :plug_restrict_ip,
-  global_cidrs: [],
+  global_cidrs: [
+    "4.4.4.0/24"
+  ],
   cidrs: %{
     single_cidr: "0.0.0.0/0",
     multiple_cidrs: ["0.0.0.0/0", "::/0"],

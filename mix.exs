@@ -25,7 +25,9 @@ defmodule PlugRestrictIp.MixProject do
     [
       {:plug, "~> 1.12"},
       {:inet_cidr, "~> 1.0"},
-      {:jason, "~> 1.2"}
+
+      # Static Analysis
+      {:credo, "~> 1.4", only: [:dev], runtime: false}
     ]
   end
 
