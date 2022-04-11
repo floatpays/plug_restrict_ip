@@ -34,7 +34,7 @@ defmodule PlugRestrictIp do
 
         _ ->
           conn
-          |> put_resp_content_type("application/json")
+          |> put_resp_content_type("text/plain; charset=utf-8")
           |> resp(:forbidden, "Forbidden")
           |> halt()
       end
