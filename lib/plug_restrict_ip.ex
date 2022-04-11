@@ -42,7 +42,10 @@ defmodule PlugRestrictIp do
   end
 
   defp incoming_ip(conn) do
-    to_string(:inet_parse.ntoa(conn.remote_ip))
+    case conn.remote_ip do
+      nil -> ""
+      val -> to_string(:inet_parse.ntoa(val))
+    end
   end
 
   defp get_allowed_cidrs(cidrs) when is_list(cidrs) do

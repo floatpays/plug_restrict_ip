@@ -34,6 +34,14 @@ defmodule PlugRestrictIpTest do
            end) =~ "not whitelisted"
   end
 
+  test "warns only if log_only is set and remote_ip is nil" do
+    assert capture_log(fn ->
+             conn = call(nil, log_only: true)
+
+             assert_accepted(conn)
+           end) =~ "not whitelisted"
+  end
+
   test "allows single cidr" do
     conn = call({1, 1, 1, 1}, allow: :single_cidr)
 
@@ -106,7 +114,26 @@ defmodule PlugRestrictIpTest do
     assert_forbidden(conn)
   end
 
-  test "handle bad config gracefully?? how" do
+  test "allow ipv6" do
+    # 2001:200:dff:fff1:216:3eff:feb1:44d7
+    conn =
+      call(
+        {8193, 512, 3583, 65521, 534, 16127, 65201, 17623},
+        allow: "2000::/4"
+      )
+
+    assert_accepted(conn)
+  end
+
+  test "forbid ipv6" do
+    # 2001:200:dff:fff1:216:3eff:feb1:44d7
+    conn =
+      call(
+        {8193, 512, 3583, 65521, 534, 16127, 65201, 17623},
+        allow: "2000::/16"
+      )
+
+    assert_forbidden(conn)
   end
 
   defp call(ip, opts \\ []) do
